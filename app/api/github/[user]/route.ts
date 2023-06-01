@@ -57,15 +57,20 @@ export async function GET(req: Request, context: any) {
 
     // // TODO: should check users weekly deadline to calculate the since date
     const response = await fetch(
-      `https://api.github.com/users/${user}/events?per_page=25`
+      `https://api.github.com/users/${user}/events?per_page=25`,
+      {
+        next: {
+          revalidate: 0,
+        },
+      }
     )
     const commits = await response.json()
+    console.log("hello")
     commits.map((commit: any) => {
       if (commit.type === "PushEvent") {
         if (dayjs(commit.created_at).isAfter(since)) {
-          console.log(commit.created_at)
           commit.payload.commits.map((commit: any) => {
-            if (commit.author.name === "torvalds") {
+            if (commit.author.name === "puneet-sarhali") {
               console.log(commit)
             }
           })
