@@ -33,8 +33,6 @@ export default async function DashboardPage() {
     <DashboardShell>
       <DashboardHeader heading="Goals" text="Create and manage goals.">
         <PostCreateButton />
-        {/* @ts-expect-error Server Component */}
-        <InitGithubRepo />
       </DashboardHeader>
       <div>
         {goals?.length ? (
@@ -54,6 +52,8 @@ export default async function DashboardPage() {
           </EmptyPlaceholder>
         )}
       </div>
+      {/* @ts-expect-error Server Component */}
+      <InitGithubRepo />
     </DashboardShell>
   )
 }

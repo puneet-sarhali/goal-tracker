@@ -40,7 +40,7 @@ export async function GET(req: NextRequest, context: any) {
     }
 
     const response = await fetch(
-      `https://api.github.com/users/puneet-sarhali/events?per_page=100`,
+      `https://api.github.com/users/puneet-sarhali/events?per_page=5`,
       {
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
@@ -52,6 +52,7 @@ export async function GET(req: NextRequest, context: any) {
     let userCommits = [null]
     commits.map((commit: any) => {
       if (commit.type === "PushEvent") {
+        console.log(commit)
         if (dayjs(commit.created_at).isAfter(since)) {
           console.log(commit)
           userCommits.push(commit)

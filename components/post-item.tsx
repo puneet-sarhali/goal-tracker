@@ -20,14 +20,14 @@ export function GoalItem({ goal }: goalItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
-        <h2 className="flex gap-2 font-semibold mb-8">
+        <h2 className="mb-8 flex gap-2 font-semibold">
           <Github></Github>
           {`${
             goal.target
           } ${goal.type.toLowerCase()} ${goal.frequency.toLowerCase()}`}
         </h2>
         <div>
-          <ul className="flex gap-4 [&>*]:bg-muted [&>*]:p-4 [&>*]:rounded-md">
+          <ul className="flex gap-4 [&>*]:rounded-md [&>*]:bg-muted [&>*]:p-4">
             <li>
               <DollarSign></DollarSign>
               <p>25$</p>
