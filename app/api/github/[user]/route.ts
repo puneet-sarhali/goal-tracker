@@ -1,30 +1,14 @@
+import { NextRequest } from "next/server"
 import dayjs from "dayjs"
-import { getServerSession } from "next-auth/next"
 import { z } from "zod"
 
-import { authOptions } from "@/lib/auth"
 import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
 
-const routeContextSchema = z.object({
-  params: z.object({
-    userId: z.string(),
-  }),
-})
-
-export async function GET(req: Request, context: any) {
+export async function GET(req: NextRequest, context: any) {
   try {
-    // Ensure user is authentication and has access to this user.
-    // const session = await getServerSession(authOptions)
-    // const currentUser = await getCurrentUser()
-    // console.log("current user", currentUser)
-    // console.log("current session", session)
-    // if (!session?.user) {
-    //   return new Response(null, { status: 403 })
-    // }
-
     const { searchParams } = new URL(req.url)
     const goalId = searchParams.get("goalId")
+    const userId = searchParams.get("userId")
 
     if (!goalId) {
       return new Response("Missing goal ID", { status: 404 })
@@ -55,29 +39,34 @@ export async function GET(req: Request, context: any) {
         .startOf("day")
     }
 
-    // // TODO: should check users weekly deadline to calculate the since date
     const response = await fetch(
-      `https://api.github.com/users/${user}/events?per_page=25`,
+      `https://api.github.com/users/puneet-sarhali/events?per_page=100`,
       {
-        next: {
-          revalidate: 0,
+        headers: {
+          "X-GitHub-Api-Version": "2022-11-28",
+          Authorization: `Bearer ${process.env.GITHUB_ACCESS_TOKEN}`,
         },
       }
     )
     const commits = await response.json()
-    console.log("hello")
+    let userCommits = [null]
     commits.map((commit: any) => {
       if (commit.type === "PushEvent") {
         if (dayjs(commit.created_at).isAfter(since)) {
-          commit.payload.commits.map((commit: any) => {
-            if (commit.author.name === "puneet-sarhali") {
-              console.log(commit)
-            }
-          })
+          console.log(commit)
+          userCommits.push(commit)
+          // commit.payload.commits.map((commit: any) => {
+          //   if (
+          //     commit.author.name === "puneet-sarhali" ||
+          //     commit.author.email === "pssarhali@gmail.com"
+          //   ) {
+          //     userCommits.push(commit)
+          //   }
+          // })
         }
       }
     })
-    return new Response(JSON.stringify("yessir"), { status: 200 })
+    return new Response(JSON.stringify(userCommits), { status: 200 })
   } catch (error) {
     console.log(error)
     return new Response("what the fuck", { status: 403 })
