@@ -1,7 +1,7 @@
 import { SiteConfig } from "types"
 
 export const siteConfig: SiteConfig = {
-  name: "Coder",
+  name: "GitTrackr",
   description: "Trust data, not yourself",
   url: "https://tx.shadcn.com",
   ogImage: "https://tx.shadcn.com/og.jpg",

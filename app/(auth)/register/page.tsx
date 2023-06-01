@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { LogIn } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -20,7 +21,7 @@ export default function RegisterPage() {
           "absolute right-4 top-4 md:right-8 md:top-8"
         )}
       >
-        Login
+        <LogIn className="mr-3"></LogIn>Login
       </Link>
       <div className="hidden h-full bg-muted lg:block" />
       <div className="lg:p-8">

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { LogIn } from "lucide-react"
 
 import { marketingConfig } from "@/config/marketing"
 import { cn } from "@/lib/utils"
@@ -23,9 +24,10 @@ export default async function MarketingLayout({
               href="/login"
               className={cn(
                 buttonVariants({ variant: "secondary", size: "sm" }),
-                "px-4"
+                "group px-4"
               )}
             >
+              <LogIn className="mr-3 h-4 w-4 text-muted-foreground group-hover:text-foreground"></LogIn>
               Login
             </Link>
           </nav>
