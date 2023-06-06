@@ -10,7 +10,7 @@ async function initRepoWebhook() {
     redirect(authOptions?.pages?.signIn || "/login")
   }
   const res = await fetch(
-    `http://localhost:3000/api/github/puneet-sarhali?userId=${user?.id}&goalId=cli9da24f0001iwkyz8pn34sl`
+    `http://localhost:3000/api/github/puneet-sarhali?userId=${user?.id}&goalId=cli9dawja0003iwkyelmp1jvh`
   )
   const data = await res.json()
   console.log(data)
