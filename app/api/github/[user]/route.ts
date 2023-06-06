@@ -32,15 +32,17 @@ export async function GET(req: NextRequest, context: any) {
     if (goal?.frequency === "DAILY") {
       since = dayjs(new Date()).startOf("day")
     }
+    // TODO: shouldn't be goal start, get week start
     if (goal?.frequency === "WEEKLY") {
-      const weekday = dayjs(goal.start).day()
-      since = dayjs()
-        .day(weekday - 7)
-        .startOf("day")
+      const dueDateWeekday = dayjs(goal.start).day()
+      const todayWeekday = dayjs().day()
+      const weekday =
+        dueDateWeekday < todayWeekday ? dueDateWeekday : dueDateWeekday - 7
+      since = dayjs().day(weekday).startOf("day")
     }
 
     const response = await fetch(
-      `https://api.github.com/users/puneet-sarhali/events?per_page=5`,
+      `https://api.github.com/users/puneet-sarhali/events?per_page=50`,
       {
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
@@ -49,12 +51,10 @@ export async function GET(req: NextRequest, context: any) {
       }
     )
     const commits = await response.json()
-    let userCommits = [null]
+    let userCommits: any[] = []
     commits.map((commit: any) => {
       if (commit.type === "PushEvent") {
-        console.log(commit)
         if (dayjs(commit.created_at).isAfter(since)) {
-          console.log(commit)
           userCommits.push(commit)
           // commit.payload.commits.map((commit: any) => {
           //   if (

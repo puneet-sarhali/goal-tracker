@@ -27,7 +27,7 @@ export default async function MarketingLayout({
                 "group px-4"
               )}
             >
-              <LogIn className="mr-3 h-4 w-4 text-muted-foreground group-hover:text-foreground"></LogIn>
+              <LogIn className="mr-3 h-4 w-4 text-muted-foreground transition group-hover:text-foreground"></LogIn>
               Login
             </Link>
           </nav>
